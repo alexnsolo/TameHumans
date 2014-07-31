@@ -3,7 +3,7 @@ package com.tamehumans.entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIFollowOwner;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -18,6 +18,10 @@ public class EntityHuman extends EntityTameable {
         super(p_i1683_1_);
         this.setSize(0.9F, 1.3F);
         this.setCurrentItemOrArmor(0, new ItemStack(Items.iron_sword));
+        this.tasks.addTask(1, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
+        this.tasks.addTask(2, new EntityAIWander(this, 1.0D));
+        this.tasks.addTask(3, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        this.tasks.addTask(4, new EntityAILookIdle(this));
     }
 
     @Override
@@ -29,7 +33,7 @@ public class EntityHuman extends EntityTameable {
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.20000000298023224D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.30D);
     }
 
     @Override
