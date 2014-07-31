@@ -1,17 +1,17 @@
 package com.tamehumans;
 
 import com.tamehumans.entity.EntityHuman;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.registry.EntityRegistry;
 
 import java.awt.*;
 
 @Mod(modid = TameHumansMod.MODID, version = TameHumansMod.VERSION)
-public class TameHumansMod
-{
+public class TameHumansMod {
+
     public static final String MODID = "tamehumans";
     public static final String VERSION = "0.0.1";
 

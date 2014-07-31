@@ -1,7 +1,7 @@
 package com.tamehumans;
 
-public class CommonProxy
-{
+public class CommonProxy {
+
     public void registerRenderThings() {
     }
 
