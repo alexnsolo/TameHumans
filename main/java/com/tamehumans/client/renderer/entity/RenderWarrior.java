@@ -9,11 +9,11 @@ import net.minecraft.util.ResourceLocation;
 
 
 @SideOnly(Side.CLIENT)
-public class RenderHuman extends RenderBiped {
+public class RenderWarrior extends RenderBiped {
 
     private static final ResourceLocation warriorTexture = new ResourceLocation("tamehumans:textures/entity/warrior.png");
 
-    public RenderHuman() {
+    public RenderWarrior() {
         super(new ModelBiped(), 0);
     }
 

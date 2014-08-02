@@ -1,11 +1,13 @@
 package com.tamehumans;
 
-import com.tamehumans.entity.EntityHuman;
+import com.tamehumans.entity.EntityHumanBase;
+import com.tamehumans.entity.EntityWarrior;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.registry.EntityRegistry;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.world.biome.BiomeGenBase;
 
@@ -25,14 +27,18 @@ public class TameHumansMod {
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-
         proxy.registerRenderThings();
         proxy.registerSound();
 
         int eggColor = (Color.blue.getRed() << 16) + (Color.blue.getGreen() << 8) + Color.blue.getBlue();
-        EntityRegistry.registerGlobalEntityID(EntityHuman.class, "EntityHuman", 0, eggColor, eggColor);
+        EntityRegistry.registerGlobalEntityID(EntityWarrior.class, "Warrior", 0, eggColor, eggColor);
+        LanguageRegistry.instance().addStringLocalization("Warrior", "en_US", "Warrior");
 
-         EntityRegistry.addSpawn(EntityHuman.class, 100, 0, 1, EnumCreatureType.creature,
+        addSpawn(EntityWarrior.class, 100);
+    }
+
+    private void addSpawn(Class<? extends EntityHumanBase> entityClass, int weightedProb) {
+        EntityRegistry.addSpawn(entityClass, weightedProb, 0, 1, EnumCreatureType.creature,
                 BiomeGenBase.plains,
                 BiomeGenBase.beach,
                 BiomeGenBase.birchForest,
