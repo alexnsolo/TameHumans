@@ -4,6 +4,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
+import net.minecraft.entity.boss.EntityWither;
+import net.minecraft.entity.monster.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -16,14 +18,25 @@ public class EntityWarrior extends EntityHumanBase {
         super(p_i1683_1_);
         this.goldNeededToTame += this.rand.nextInt(10);
         this.setCurrentItemOrArmor(0, new ItemStack(Items.iron_sword));
-        this.tasks.addTask(1, new EntityAISwimming(this));
-        this.tasks.addTask(2, new EntityAIAttackOnCollide(this, 1.0D, false));
-        this.tasks.addTask(3, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
-        this.tasks.addTask(4, new EntityAIWander(this, 1.0D));
-        this.tasks.addTask(5, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(6, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
-        this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
+
+        int taskPriority = 0;
+        this.tasks.addTask(++taskPriority, new EntityAISwimming(this));
+        this.tasks.addTask(++taskPriority, new EntityAIAttackOnCollide(this, 1.0D, false));
+        this.tasks.addTask(++taskPriority, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
+        this.tasks.addTask(++taskPriority, new EntityAIWander(this, 1.0D));
+        this.tasks.addTask(++taskPriority, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        this.tasks.addTask(++taskPriority, new EntityAILookIdle(this));
+
+        int targetPriority = 0;
+        this.targetTasks.addTask(++targetPriority, new EntityAIOwnerHurtByTarget(this));
+        this.targetTasks.addTask(++targetPriority, new EntityAIHurtByTarget(this, true));
+        this.targetTasks.addTask(++targetPriority, new EntityAIOwnerHurtTarget(this));
+        this.targetTasks.addTask(++targetPriority, new EntityAINearestAttackableTarget(this, EntityZombie.class, 0, true));
+        this.targetTasks.addTask(++targetPriority, new EntityAINearestAttackableTarget(this, EntitySkeleton.class, 0, true));
+        this.targetTasks.addTask(++targetPriority, new EntityAINearestAttackableTarget(this, EntitySpider.class, 0, true));
+        this.targetTasks.addTask(++targetPriority, new EntityAINearestAttackableTarget(this, EntityCaveSpider.class, 0, true));
+        this.targetTasks.addTask(++targetPriority, new EntityAINearestAttackableTarget(this, EntityBlaze.class, 0, true));
+        this.targetTasks.addTask(++targetPriority, new EntityAINearestAttackableTarget(this, EntityWither.class, 0, true));
     }
 
     @Override
@@ -40,7 +53,7 @@ public class EntityWarrior extends EntityHumanBase {
 
     @Override
     public boolean attackEntityAsMob(Entity p_70652_1_) {
-        int i = this.isTamed() ? 4 : 2;
+        int i = this.isTamed() ? 6 : 4;
         return p_70652_1_.attackEntityFrom(DamageSource.causeMobDamage(this), (float)i);
     }
 }

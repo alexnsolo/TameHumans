@@ -1,5 +1,6 @@
 package com.tamehumans;
 
+import com.tamehumans.entity.EntityArcher;
 import com.tamehumans.entity.EntityHumanBase;
 import com.tamehumans.entity.EntityWarrior;
 import cpw.mods.fml.common.Mod;
@@ -30,10 +31,12 @@ public class TameHumansMod {
         proxy.registerRenderThings();
         proxy.registerSound();
 
-        int eggColor = (Color.blue.getRed() << 16) + (Color.blue.getGreen() << 8) + Color.blue.getBlue();
-        EntityRegistry.registerGlobalEntityID(EntityWarrior.class, "Warrior", 0, eggColor, eggColor);
+        int id = 0;
+        EntityRegistry.registerModEntity(EntityWarrior.class, "EntityWarrior", ++id, this, 80, 1, true);
+        EntityRegistry.registerModEntity(EntityArcher.class, "EntityArcher", ++id, this, 80, 1, true);
 
         addSpawn(EntityWarrior.class, 100);
+        addSpawn(EntityArcher.class, 100);
     }
 
     private void addSpawn(Class<? extends EntityHumanBase> entityClass, int weightedProb) {
