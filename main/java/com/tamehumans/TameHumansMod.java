@@ -32,7 +32,6 @@ public class TameHumansMod {
 
         int eggColor = (Color.blue.getRed() << 16) + (Color.blue.getGreen() << 8) + Color.blue.getBlue();
         EntityRegistry.registerGlobalEntityID(EntityWarrior.class, "Warrior", 0, eggColor, eggColor);
-        LanguageRegistry.instance().addStringLocalization("Warrior", "en_US", "Warrior");
 
         addSpawn(EntityWarrior.class, 100);
     }
