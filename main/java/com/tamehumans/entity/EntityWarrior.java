@@ -45,14 +45,12 @@ public class EntityWarrior extends EntityHumanBase {
         return "Warrior";
     }
 
-    @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(30.0D);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.30D);
     }
 
-    @Override
     public boolean attackEntityAsMob(Entity p_70652_1_) {
         int i = this.isTamed() ? 6 : 4;
         return p_70652_1_.attackEntityFrom(DamageSource.causeMobDamage(this), (float)i);
