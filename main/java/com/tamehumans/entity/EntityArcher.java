@@ -1,5 +1,6 @@
 package com.tamehumans.entity;
 
+import com.tamehumans.entity.ai.EntityAIDefensiveArrowAttack;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
@@ -13,7 +14,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class EntityArcher extends EntityHumanBase implements IRangedAttackMob {
+public class EntityArcher extends EntityHumanBase implements ITameableRangedAttackMob {
 
     public EntityArcher(World p_i1683_1_) {
         super(p_i1683_1_);
@@ -22,8 +23,8 @@ public class EntityArcher extends EntityHumanBase implements IRangedAttackMob {
 
         int taskPriority = 0;
         this.tasks.addTask(++taskPriority, new EntityAISwimming(this));
-        this.tasks.addTask(++taskPriority, new EntityAIArrowAttack(this, 1.0D, 20, 40, 150.0F));
-        this.tasks.addTask(++taskPriority, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
+        this.tasks.addTask(++taskPriority, new EntityAIDefensiveArrowAttack(this, 20, 40, 15.0F, 10.0F));
+        this.tasks.addTask(++taskPriority, new EntityAIFollowOwner(this, 1.0D, 10.0F, 4.0F));
         this.tasks.addTask(++taskPriority, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(++taskPriority, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(++taskPriority, new EntityAILookIdle(this));
@@ -71,5 +72,10 @@ public class EntityArcher extends EntityHumanBase implements IRangedAttackMob {
 
         this.playSound("random.bow", 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
         this.worldObj.spawnEntityInWorld(entityarrow);
+    }
+
+    public boolean canAttackClass(Class p_70686_1_)
+    {
+        return true;
     }
 }

@@ -6,6 +6,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.monster.*;
+import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -21,8 +22,9 @@ public class EntityWarrior extends EntityHumanBase {
 
         int taskPriority = 0;
         this.tasks.addTask(++taskPriority, new EntityAISwimming(this));
+        this.tasks.addTask(++taskPriority, new EntityAIAvoidEntity(this, EntityCreeper.class, 4.0F, 1.0D, 1.2D));
         this.tasks.addTask(++taskPriority, new EntityAIAttackOnCollide(this, 1.0D, false));
-        this.tasks.addTask(++taskPriority, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
+        this.tasks.addTask(++taskPriority, new EntityAIFollowOwner(this, 1.0D, 10.0F, 3.0F));
         this.tasks.addTask(++taskPriority, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(++taskPriority, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(++taskPriority, new EntityAILookIdle(this));
