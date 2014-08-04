@@ -2,6 +2,7 @@ package com.tamehumans;
 
 import com.tamehumans.entity.EntityArcher;
 import com.tamehumans.entity.EntityHumanBase;
+import com.tamehumans.entity.EntityMiner;
 import com.tamehumans.entity.EntityWarrior;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -34,9 +35,11 @@ public class TameHumansMod {
         int id = 0;
         EntityRegistry.registerModEntity(EntityWarrior.class, "EntityWarrior", ++id, this, 80, 1, true);
         EntityRegistry.registerModEntity(EntityArcher.class, "EntityArcher", ++id, this, 80, 1, true);
+        EntityRegistry.registerModEntity(EntityMiner.class, "EntityMiner", ++id, this, 80, 1, true);
 
         addSpawn(EntityWarrior.class, 100);
         addSpawn(EntityArcher.class, 100);
+        addSpawn(EntityMiner.class, 100);
     }
 
     private void addSpawn(Class<? extends EntityHumanBase> entityClass, int weightedProb) {

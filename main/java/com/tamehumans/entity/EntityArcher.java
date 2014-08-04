@@ -44,10 +44,6 @@ public class EntityArcher extends EntityHumanBase implements ITameableRangedAtta
         this.targetTasks.addTask(++targetPriority, new EntityAINearestAttackableTarget(this, EntityDragon.class, 0, true));
     }
 
-    public EntityAgeable createChild(EntityAgeable p_90011_1_) {
-        return new EntityArcher(this.worldObj);
-    }
-
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20.0D);

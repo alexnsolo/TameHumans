@@ -42,11 +42,6 @@ public class EntityWarrior extends EntityHumanBase {
     }
 
     @Override
-    public EntityAgeable createChild(EntityAgeable p_90011_1_) {
-        return new EntityWarrior(this.worldObj);
-    }
-
-    @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(30.0D);
