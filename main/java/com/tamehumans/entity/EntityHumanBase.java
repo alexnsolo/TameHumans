@@ -7,6 +7,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.util.DamageSource;
@@ -14,11 +15,21 @@ import net.minecraft.world.World;
 
 public class EntityHumanBase extends EntityTameable {
 
+    protected InventoryBasic myInventory;
     protected int goldNeededToTame = 10;
 
     public EntityHumanBase(World p_i1683_1_) {
         super(p_i1683_1_);
         this.setSize(0.9F, 1.3F);
+        this.myInventory = new InventoryBasic(getMyName(), false, getMyInventorySize());
+    }
+
+    public String getMyName() {
+        return "Human";
+    }
+
+    public int getMyInventorySize() {
+        return 9;
     }
 
     @Override
@@ -42,7 +53,10 @@ public class EntityHumanBase extends EntityTameable {
     public boolean interact(EntityPlayer player) {
         ItemStack playerItem = player.inventory.getCurrentItem();
 
-       if (!this.isTamed() && playerItem != null && playerItem.getItem() == Items.gold_nugget) {
+        if (this.isTamed()) {
+            player.displayGUIChest(this.myInventory);
+        }
+        else if (playerItem != null && playerItem.getItem() == Items.gold_nugget) {
             --playerItem.stackSize;
 
             if (playerItem.stackSize <= 0) {

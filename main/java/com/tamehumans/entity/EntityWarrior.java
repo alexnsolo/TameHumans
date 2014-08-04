@@ -41,6 +41,10 @@ public class EntityWarrior extends EntityHumanBase {
         this.targetTasks.addTask(++targetPriority, new EntityAINearestAttackableTarget(this, EntityWither.class, 0, true));
     }
 
+    public String getMyName() {
+        return "Warrior";
+    }
+
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();

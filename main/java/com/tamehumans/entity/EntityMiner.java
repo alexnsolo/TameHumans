@@ -23,6 +23,13 @@ public class EntityMiner extends EntityHumanBase {
         this.tasks.addTask(++taskPriority, new EntityAILookIdle(this));
     }
 
+    public String getMyName() {
+        return "Miner";
+    }
+
+    public int getMyInventorySize() {
+        return 18;
+    }
 
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
