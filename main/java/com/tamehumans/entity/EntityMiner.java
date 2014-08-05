@@ -1,5 +1,6 @@
 package com.tamehumans.entity;
 
+import com.tamehumans.entity.ai.EntityAIProspectForOre;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.player.EntityPlayer;
@@ -7,7 +8,13 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
+import javax.vecmath.Vector3f;
+import java.util.HashSet;
+import java.util.Set;
+
 public class EntityMiner extends EntityHumanBase {
+
+    public Set<Vector3f> oreLocations = new HashSet<Vector3f>();
 
     public EntityMiner(World p_i1683_1_) {
         super(p_i1683_1_);
@@ -17,6 +24,7 @@ public class EntityMiner extends EntityHumanBase {
 
         int taskPriority = 0;
         this.tasks.addTask(++taskPriority, new EntityAISwimming(this));
+        this.tasks.addTask(++taskPriority, new EntityAIProspectForOre(this, 10.0F));
         this.tasks.addTask(++taskPriority, new EntityAIFollowOwner(this, 1.0D, 10.0F, 4.0F));
         this.tasks.addTask(++taskPriority, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(++taskPriority, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
