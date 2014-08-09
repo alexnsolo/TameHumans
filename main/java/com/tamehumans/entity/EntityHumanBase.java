@@ -13,13 +13,13 @@ import net.minecraft.world.World;
 
 public class EntityHumanBase extends EntityTameable {
 
-    protected InventoryBasic myInventory;
+    public InventoryBasic inventory;
     protected int goldNeededToTame = 10;
 
     public EntityHumanBase(World p_i1683_1_) {
         super(p_i1683_1_);
         this.setSize(0.9F, 1.3F);
-        this.myInventory = new InventoryBasic(getMyName(), false, getMyInventorySize());
+        this.inventory = new InventoryBasic(getMyName(), false, getMyInventorySize());
     }
 
     public String getMyName() {
@@ -48,7 +48,7 @@ public class EntityHumanBase extends EntityTameable {
         ItemStack playerItem = player.inventory.getCurrentItem();
 
         if (this.isTamed()) {
-            player.displayGUIChest(this.myInventory);
+            player.displayGUIChest(this.inventory);
         }
         else if (playerItem != null && playerItem.getItem() == Items.gold_nugget) {
             --playerItem.stackSize;
