@@ -4,16 +4,19 @@ import com.tamehumans.entity.EntityArcher;
 import com.tamehumans.entity.EntityHumanBase;
 import com.tamehumans.entity.EntityMiner;
 import com.tamehumans.entity.EntityWarrior;
+import com.tamehumans.item.*;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.registry.EntityRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.biome.BiomeGenBase;
-
-import java.awt.*;
 
 @Mod(modid = TameHumansMod.MODID, version = TameHumansMod.VERSION)
 public class TameHumansMod {
@@ -26,6 +29,12 @@ public class TameHumansMod {
 
     @SidedProxy(clientSide = "com.tamehumans.ClientProxy", serverSide = "com.tamehumans.CommonProxy")
     public static CommonProxy proxy;
+
+    public static Item rulingRodWood;
+    public static Item rulingRodStone;
+    public static Item rulingRodIron;
+    public static Item rulingRodGold;
+    public static Item rulingRodDiamond;
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
@@ -40,6 +49,23 @@ public class TameHumansMod {
         addSpawn(EntityWarrior.class, 100);
         addSpawn(EntityArcher.class, 100);
         addSpawn(EntityMiner.class, 100);
+
+        rulingRodWood = new RulingRodWood();
+        rulingRodStone = new RulingRodStone();
+        rulingRodIron = new RulingRodIron();
+        rulingRodGold = new RulingRodGold();
+        rulingRodDiamond = new RulingRodDiamond();
+
+        GameRegistry.registerItem(rulingRodWood, "ruling_rod_wood");
+        GameRegistry.registerItem(rulingRodStone, "ruling_rod_stone");
+        GameRegistry.registerItem(rulingRodIron, "ruling_rod_iron");
+        GameRegistry.registerItem(rulingRodGold, "ruling_rod_gold");
+        GameRegistry.registerItem(rulingRodDiamond, "ruling_rod_diamond");
+        GameRegistry.addRecipe(new ItemStack(rulingRodWood), "  #", " # ", "#  ", '#', Items.stick);
+        GameRegistry.addRecipe(new ItemStack(rulingRodStone), "  #", " # ", "#  ", '#', Blocks.stone);
+        GameRegistry.addRecipe(new ItemStack(rulingRodIron), "  #", " # ", "#  ", '#', Items.iron_ingot);
+        GameRegistry.addRecipe(new ItemStack(rulingRodGold), "  #", " # ", "#  ", '#', Items.gold_ingot);
+        GameRegistry.addRecipe(new ItemStack(rulingRodDiamond), "  #", " # ", "#  ", '#', Items.diamond);
     }
 
     private void addSpawn(Class<? extends EntityHumanBase> entityClass, int weightedProb) {
