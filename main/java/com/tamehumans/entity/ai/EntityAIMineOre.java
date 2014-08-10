@@ -22,6 +22,8 @@ public class EntityAIMineOre extends EntityAIBase {
     private double movementSpeed;
     private float maxSearchDistance;
     private Vector3Int oreLocation;
+    private int currentProspectingTime;
+    private int maxProspectingTime = 10;
     private int currentMiningTime;
     private int maxMiningTime;
 
@@ -32,6 +34,7 @@ public class EntityAIMineOre extends EntityAIBase {
         this.movementSpeed = movementSpeed;
         this.maxMiningTime = maxMiningTime;
         this.currentMiningTime = maxMiningTime;
+        this.currentProspectingTime = this.maxProspectingTime;
         this.setMutexBits(9);
     }
 
@@ -39,6 +42,15 @@ public class EntityAIMineOre extends EntityAIBase {
         if (!this.miner.isTamed()) return false;
 
         if (this.miner.getNavigator().getPath() == null) {
+            if (this.currentProspectingTime > 0) {
+                this.currentProspectingTime--;
+                return false;
+            }
+            else {
+                this.currentProspectingTime = this.maxProspectingTime;
+            }
+
+            System.out.println("Miner " + this.miner.getEntityId() + " prospecting for ore");
             int minX = MathHelper.floor_double(this.miner.posX - maxSearchDistance);
             int minY = MathHelper.floor_double(this.miner.posY - maxSearchDistance);
             int minZ = MathHelper.floor_double(this.miner.posZ - maxSearchDistance);
@@ -77,12 +89,10 @@ public class EntityAIMineOre extends EntityAIBase {
             }
         }
 
-        System.out.println("Miner " + this.miner.getEntityId() + " should not execute");
         return false;
     }
 
     public boolean continueExecuting() {
-        System.out.println("Miner " + this.miner.getEntityId() + " checking if should continue!");
         if (this.miner.getNavigator().getPath() != null) {
             Block block = this.miner.worldObj.getBlock(this.oreLocation.x, this.oreLocation.y, this.oreLocation.z);
             return shouldMineBlock(block, this.oreLocation.x, this.oreLocation.y, this.oreLocation.z);
@@ -95,23 +105,25 @@ public class EntityAIMineOre extends EntityAIBase {
     public void updateTask() {
         PathNavigate navigator = this.miner.getNavigator();
         if (navigator.getPath() != null && navigator.getPath().isFinished()) {
-            if (this.currentMiningTime <= 0) {
-                System.out.println("Miner " + this.miner.getEntityId() + " mined ore!");
+            if (this.currentMiningTime > 0) {
+                this.currentMiningTime--;
+            }
+            else {
                 int x = this.oreLocation.x;
                 int y = this.oreLocation.y;
                 int z = this.oreLocation.z;
                 World world = this.miner.worldObj;
                 Block block = world.getBlock(x, y, z);
-                ArrayList<ItemStack> items = block.getDrops(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
-                for (ItemStack item : items) {
-                    InventoryUtils.addToInventory(item, this.miner.inventory);
+                if (shouldMineBlock(block, x, y, z)) {
+                    System.out.println("Miner " + this.miner.getEntityId() + " mined ore!");
+                    ArrayList<ItemStack> items = block.getDrops(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+                    for (ItemStack item : items) {
+                        InventoryUtils.addToInventory(item, this.miner.inventory);
+                    }
+                    world.setBlockToAir(x, y, z);
+                    navigator.clearPathEntity();
+                    this.miner.swingItem();
                 }
-                world.setBlockToAir(x, y, z);
-                navigator.clearPathEntity();
-                this.miner.swingItem();
-            }
-            else {
-                this.currentMiningTime--;
             }
         }
     }
@@ -120,6 +132,7 @@ public class EntityAIMineOre extends EntityAIBase {
         System.out.println("Miner " + this.miner.getEntityId() + " forgot task!");
         this.oreLocation = null;
         this.currentMiningTime = this.maxMiningTime;
+        this.currentProspectingTime = this.maxProspectingTime;
     }
 
     private boolean shouldMineBlock(Block block, int x, int y, int z) {
