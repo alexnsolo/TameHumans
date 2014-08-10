@@ -10,12 +10,13 @@ import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.PathEntity;
+import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
 
-public class EntityAIProspectForOre extends EntityAIBase {
+public class EntityAIMineOre extends EntityAIBase {
 
     private EntityMiner miner;
     private double movementSpeed;
@@ -25,7 +26,7 @@ public class EntityAIProspectForOre extends EntityAIBase {
     private int maxMiningTime;
 
 
-    public EntityAIProspectForOre(EntityMiner miner, double movementSpeed, float maxSearchDistance, int maxMiningTime) {
+    public EntityAIMineOre(EntityMiner miner, double movementSpeed, float maxSearchDistance, int maxMiningTime) {
         this.miner = miner;
         this.maxSearchDistance = maxSearchDistance;
         this.movementSpeed = movementSpeed;
@@ -92,7 +93,8 @@ public class EntityAIProspectForOre extends EntityAIBase {
     }
 
     public void updateTask() {
-        if (this.miner.getNavigator().getPath().isFinished()) {
+        PathNavigate navigator = this.miner.getNavigator();
+        if (navigator.getPath() != null && navigator.getPath().isFinished()) {
             if (this.currentMiningTime <= 0) {
                 System.out.println("Miner " + this.miner.getEntityId() + " mined ore!");
                 int x = this.oreLocation.x;
@@ -105,7 +107,7 @@ public class EntityAIProspectForOre extends EntityAIBase {
                     InventoryUtils.addToInventory(item, this.miner.inventory);
                 }
                 world.setBlockToAir(x, y, z);
-                this.miner.getNavigator().clearPathEntity();
+                navigator.clearPathEntity();
                 this.miner.swingItem();
             }
             else {

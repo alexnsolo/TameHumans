@@ -1,6 +1,6 @@
 package com.tamehumans.entity;
 
-import com.tamehumans.entity.ai.EntityAIProspectForOre;
+import com.tamehumans.entity.ai.EntityAIMineOre;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,7 +18,7 @@ public class EntityMiner extends EntityHumanBase {
 
         int taskPriority = 0;
         this.tasks.addTask(++taskPriority, new EntityAISwimming(this));
-        this.tasks.addTask(++taskPriority, new EntityAIProspectForOre(this, 1.0D, 10.0F, 20));
+        this.tasks.addTask(++taskPriority, new EntityAIMineOre(this, 1.0D, 10.0F, 20));
         this.tasks.addTask(++taskPriority, new EntityAIFollowOwner(this, 1.0D, 10.0F, 4.0F));
         this.tasks.addTask(++taskPriority, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(++taskPriority, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
