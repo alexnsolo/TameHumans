@@ -1,17 +1,20 @@
 package com.tamehumans.entity;
 
+import com.tamehumans.utils.InventoryUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.IInvBasic;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
-public class EntityHumanBase extends EntityTameable {
+public class EntityHumanBase extends EntityTameable implements IInvBasic {
 
     public InventoryBasic inventory;
     protected int goldNeededToTame = 10;
@@ -83,5 +86,17 @@ public class EntityHumanBase extends EntityTameable {
     public boolean attackEntityAsMob(Entity p_70652_1_) {
         int i = this.isTamed() ? 4 : 2;
         return p_70652_1_.attackEntityFrom(DamageSource.causeMobDamage(this), (float)i);
+    }
+
+    public void onInventoryChanged(InventoryBasic p_76316_1_) { }
+
+    public void writeEntityToNBT(NBTTagCompound ntb) {
+        super.writeEntityToNBT(ntb);
+        InventoryUtils.writeToNBT(ntb, this.inventory);
+    }
+
+    public void readEntityFromNBT(NBTTagCompound ntb) {
+        super.readEntityFromNBT(ntb);
+        InventoryUtils.readFromNBT(ntb, this.inventory);
     }
 }

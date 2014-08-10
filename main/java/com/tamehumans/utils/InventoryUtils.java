@@ -2,8 +2,12 @@ package com.tamehumans.utils;
 
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 
 public class InventoryUtils {
+
+    public static final String NTB_INVENTORY_TAG = "Inventory";
 
     public static void addToInventory(ItemStack itemStack, InventoryBasic inventory) {
         if (itemStack != null && itemStack.stackSize != 0 && itemStack.getItem() != null) {
@@ -69,5 +73,34 @@ public class InventoryUtils {
             }
         }
         return -1;
+    }
+
+    public static void writeToNBT(NBTTagCompound ntb, InventoryBasic inventory) {
+        NBTTagList nbtTagList = new NBTTagList();
+
+        for (int i = 0; i < inventory.getSizeInventory(); ++i) {
+            ItemStack stack = inventory.getStackInSlot(i);
+            if (stack != null) {
+                NBTTagCompound nbtItem = new NBTTagCompound();
+                nbtItem.setByte("Slot", (byte) i);
+                stack.writeToNBT(nbtItem);
+                nbtTagList.appendTag(nbtItem);
+            }
+        }
+
+        ntb.setTag(NTB_INVENTORY_TAG, nbtTagList);
+    }
+
+    public static void readFromNBT(NBTTagCompound ntb, InventoryBasic inventory) {
+        NBTTagList nbtTagList = ntb.getTagList(NTB_INVENTORY_TAG, 10);
+
+        for (int i = 0; i < nbtTagList.tagCount(); ++i) {
+            NBTTagCompound ntbItem = nbtTagList.getCompoundTagAt(i);
+            int j = ntbItem.getByte("Slot") & 255;
+
+            if (j >= 0 && j < inventory.getSizeInventory()) {
+                inventory.setInventorySlotContents(j, ItemStack.loadItemStackFromNBT(ntbItem));
+            }
+        }
     }
 }
