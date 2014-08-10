@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInvBasic;
 import net.minecraft.inventory.InventoryBasic;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
@@ -21,6 +22,10 @@ public class EntityHumanBase extends EntityTameable implements IInvBasic {
 
     public EntityHumanBase(World p_i1683_1_) {
         super(p_i1683_1_);
+
+        if (getDefaultEquipment() != null) {
+            this.setCurrentItemOrArmor(0, new ItemStack(getDefaultEquipment()));
+        }
         this.setSize(0.9F, 1.3F);
         this.inventory = new InventoryBasic(getMyName(), false, getMyInventorySize());
     }
@@ -31,6 +36,10 @@ public class EntityHumanBase extends EntityTameable implements IInvBasic {
 
     public int getMyInventorySize() {
         return 9;
+    }
+
+    public Item getDefaultEquipment() {
+        return null;
     }
 
     public EntityAgeable createChild(EntityAgeable p_90011_1_) {
@@ -98,5 +107,37 @@ public class EntityHumanBase extends EntityTameable implements IInvBasic {
     public void readEntityFromNBT(NBTTagCompound ntb) {
         super.readEntityFromNBT(ntb);
         InventoryUtils.readFromNBT(ntb, this.inventory);
+    }
+
+    protected Item getDropItem() {
+        return Items.gold_nugget;
+    }
+
+    protected void dropFewItems(boolean hitByPlayer, int lootingLevel) {
+        int j = this.rand.nextInt(3) + this.rand.nextInt(1 + lootingLevel);
+        for (int k = 0; k < j; ++k) {
+            this.dropItem(getDropItem(), 1);
+        }
+
+        if (getDefaultEquipment() != null) {
+            this.dropItem(getDefaultEquipment(), 1);
+        }
+    }
+
+    public void onDeath(DamageSource damageSource) {
+        super.onDeath(damageSource);
+
+        if (!this.worldObj.isRemote) {
+            this.dropInventory();
+        }
+    }
+
+    private void dropInventory() {
+        for (int i = 0; i < this.inventory.getSizeInventory(); ++i) {
+            ItemStack itemStack = this.inventory.getStackInSlot(i);
+            if (itemStack != null) {
+                this.entityDropItem(itemStack, 0.0F);
+            }
+        }
     }
 }

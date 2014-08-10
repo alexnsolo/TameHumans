@@ -13,6 +13,7 @@ import net.minecraft.entity.monster.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -21,7 +22,6 @@ public class EntityArcher extends EntityHumanBase implements ITameableRangedAtta
     public EntityArcher(World p_i1683_1_) {
         super(p_i1683_1_);
         this.goldNeededToTame += this.rand.nextInt(15);
-        this.setCurrentItemOrArmor(0, new ItemStack(Items.bow));
 
         int taskPriority = 0;
         this.tasks.addTask(++taskPriority, new EntityAISwimming(this));
@@ -48,6 +48,10 @@ public class EntityArcher extends EntityHumanBase implements ITameableRangedAtta
 
     public String getMyName() {
         return "Archer";
+    }
+
+    public Item getDefaultEquipment() {
+        return Items.bow;
     }
 
     protected void applyEntityAttributes() {

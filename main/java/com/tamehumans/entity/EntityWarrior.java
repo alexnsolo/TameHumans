@@ -8,6 +8,7 @@ import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.monster.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
@@ -17,7 +18,6 @@ public class EntityWarrior extends EntityHumanBase {
     public EntityWarrior(World p_i1683_1_) {
         super(p_i1683_1_);
         this.goldNeededToTame += this.rand.nextInt(10);
-        this.setCurrentItemOrArmor(0, new ItemStack(Items.iron_sword));
 
         int taskPriority = 0;
         this.tasks.addTask(++taskPriority, new EntityAISwimming(this));
@@ -42,6 +42,10 @@ public class EntityWarrior extends EntityHumanBase {
 
     public String getMyName() {
         return "Warrior";
+    }
+
+    public Item getDefaultEquipment() {
+        return Items.iron_sword;
     }
 
     protected void applyEntityAttributes() {

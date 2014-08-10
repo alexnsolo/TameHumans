@@ -5,6 +5,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -14,7 +15,6 @@ public class EntityMiner extends EntityHumanBase {
         super(p_i1683_1_);
 
         this.goldNeededToTame += this.rand.nextInt(20);
-        this.setCurrentItemOrArmor(0, new ItemStack(Items.iron_pickaxe));
 
         int taskPriority = 0;
         this.tasks.addTask(++taskPriority, new EntityAISwimming(this));
@@ -31,6 +31,10 @@ public class EntityMiner extends EntityHumanBase {
 
     public int getMyInventorySize() {
         return 18;
+    }
+
+    public Item getDefaultEquipment() {
+        return Items.iron_pickaxe;
     }
 
     protected void applyEntityAttributes() {
