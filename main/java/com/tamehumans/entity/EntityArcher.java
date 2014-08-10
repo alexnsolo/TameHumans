@@ -1,9 +1,11 @@
 package com.tamehumans.entity;
 
 import com.tamehumans.entity.ai.EntityAIDefensiveArrowAttack;
+import com.tamehumans.entity.ai.EntityAITamedNearestAttackableTarget;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.*;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.boss.EntityWither;
@@ -33,15 +35,15 @@ public class EntityArcher extends EntityHumanBase implements ITameableRangedAtta
         this.targetTasks.addTask(++targetPriority, new EntityAIOwnerHurtByTarget(this));
         this.targetTasks.addTask(++targetPriority, new EntityAIHurtByTarget(this, true));
         this.targetTasks.addTask(++targetPriority, new EntityAIOwnerHurtTarget(this));
-        this.targetTasks.addTask(++targetPriority, new EntityAINearestAttackableTarget(this, EntityCreeper.class, 0, true));
-        this.targetTasks.addTask(++targetPriority, new EntityAINearestAttackableTarget(this, EntityZombie.class, 0, true));
-        this.targetTasks.addTask(++targetPriority, new EntityAINearestAttackableTarget(this, EntitySkeleton.class, 0, true));
-        this.targetTasks.addTask(++targetPriority, new EntityAINearestAttackableTarget(this, EntitySpider.class, 0, true));
-        this.targetTasks.addTask(++targetPriority, new EntityAINearestAttackableTarget(this, EntityCaveSpider.class, 0, true));
-        this.targetTasks.addTask(++targetPriority, new EntityAINearestAttackableTarget(this, EntityBlaze.class, 0, true));
-        this.targetTasks.addTask(++targetPriority, new EntityAINearestAttackableTarget(this, EntityGhast.class, 0, true));
-        this.targetTasks.addTask(++targetPriority, new EntityAINearestAttackableTarget(this, EntityWither.class, 0, true));
-        this.targetTasks.addTask(++targetPriority, new EntityAINearestAttackableTarget(this, EntityDragon.class, 0, true));
+        this.targetTasks.addTask(++targetPriority, new EntityAITamedNearestAttackableTarget(this, EntityCreeper.class, 0, true));
+        this.targetTasks.addTask(++targetPriority, new EntityAITamedNearestAttackableTarget(this, EntityZombie.class, 0, true));
+        this.targetTasks.addTask(++targetPriority, new EntityAITamedNearestAttackableTarget(this, EntitySkeleton.class, 0, true));
+        this.targetTasks.addTask(++targetPriority, new EntityAITamedNearestAttackableTarget(this, EntitySpider.class, 0, true));
+        this.targetTasks.addTask(++targetPriority, new EntityAITamedNearestAttackableTarget(this, EntityCaveSpider.class, 0, true));
+        this.targetTasks.addTask(++targetPriority, new EntityAITamedNearestAttackableTarget(this, EntityBlaze.class, 0, true));
+        this.targetTasks.addTask(++targetPriority, new EntityAITamedNearestAttackableTarget(this, EntityGhast.class, 0, true));
+        this.targetTasks.addTask(++targetPriority, new EntityAITamedNearestAttackableTarget(this, EntityWither.class, 0, true));
+        this.targetTasks.addTask(++targetPriority, new EntityAITamedNearestAttackableTarget(this, EntityDragon.class, 0, true));
     }
 
     public String getMyName() {
