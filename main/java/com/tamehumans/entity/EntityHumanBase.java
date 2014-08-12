@@ -1,6 +1,9 @@
 package com.tamehumans.entity;
 
+import com.tamehumans.gui.GuiCommandHuman;
+import com.tamehumans.item.RulingRod;
 import com.tamehumans.utils.InventoryUtils;
+import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -59,8 +62,8 @@ public class EntityHumanBase extends EntityTameable implements IInvBasic {
     public boolean interact(EntityPlayer player) {
         ItemStack playerItem = player.inventory.getCurrentItem();
 
-        if (this.isTamed()) {
-            player.displayGUIChest(this.inventory);
+        if (this.isTamed() && playerItem != null && playerItem.getItem() instanceof RulingRod) {
+            FMLClientHandler.instance().displayGuiScreen(player, new GuiCommandHuman(player.inventory, this));
         }
         else if (playerItem != null && playerItem.getItem() == Items.gold_nugget) {
             --playerItem.stackSize;
