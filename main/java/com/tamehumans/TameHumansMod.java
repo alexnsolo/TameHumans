@@ -50,11 +50,11 @@ public class TameHumansMod {
         addSpawn(EntityArcher.class, 100);
         addSpawn(EntityMiner.class, 100);
 
-        rulingRodWood = new RulingRodWood();
-        rulingRodStone = new RulingRodStone();
-        rulingRodIron = new RulingRodIron();
-        rulingRodGold = new RulingRodGold();
-        rulingRodDiamond = new RulingRodDiamond();
+        rulingRodWood = new RulingRod(Item.ToolMaterial.WOOD);
+        rulingRodStone = new RulingRod(Item.ToolMaterial.STONE);
+        rulingRodIron = new RulingRod(Item.ToolMaterial.IRON);
+        rulingRodGold = new RulingRod(Item.ToolMaterial.GOLD);
+        rulingRodDiamond = new RulingRod(Item.ToolMaterial.EMERALD); // this is really diamond. hah
 
         GameRegistry.registerItem(rulingRodWood, "ruling_rod_wood");
         GameRegistry.registerItem(rulingRodStone, "ruling_rod_stone");
